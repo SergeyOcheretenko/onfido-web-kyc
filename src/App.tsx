@@ -14,19 +14,25 @@ function App() {
       headers: {
         'Authorization': `Token token=${token}`,
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
+        // 'Access-Control-Allow-Origin': '*',
       },
       body: JSON.stringify({
         "first_name": "John",
         "last_name": "Smith",
       }),
+      mode: 'no-cors'
     });
+    // return response;
+    console.log('response', response)
+
     return response.json();
   };
 
   const runWorkflow = async () => {
     const applicant = await createApplicant();
-    console.log(applicant);
+    console.log('applicant', applicant);
+
+    console.log('=============')
 
     const sdkTokenResponse = await fetch('https://api.eu.onfido.com/v3.6/sdk_token', {
       method: 'POST',
@@ -39,6 +45,8 @@ function App() {
       body: JSON.stringify({
         "applicant_id": applicant.id,
       }),
+      mode: 'no-cors'
+
     });
     const sdkToken = await sdkTokenResponse.json();
     console.log(sdkToken);
